@@ -58,7 +58,35 @@ def fib_wrap(n)
   fib_recur(n, 0)
 end
 
+@memo = {}
 
+def fib_recur_mem(n, depth)
+  if n == 0
+    puts_at_depth(depth, "0 BASE  : Returning 1")
+    return 1
+  end
+  if n == 1
+    puts_at_depth(depth, "1 BASE  : Returning 1")
+    return 1
+  end
+  if @memo[n]
+    puts_at_depth(depth, "#{n} MEMO'D: Returning #{@memo[n]}")
+    return @memo[n]
+  end
+
+  puts_at_depth(depth, "#{n} BEFORE:")
+  a = fib_recur_mem(n - 1, depth + 1)
+  puts_at_depth(depth, "#{n} MIDDLE:")
+  b = fib_recur_mem(n - 2, depth + 1)
+  puts_at_depth(depth, "#{n}  AFTER: Returning #{a + b}")
+  
+  @memo[n] = a + b
+  return a + b
+end
+
+def fib_mem_wrap(n)
+  fib_recur_mem(n, 0)
+end
 
 count_down_from(10)
 puts "----------"
@@ -67,4 +95,8 @@ puts "----------"
 recur(5)
 
 puts "----------"
-fib_wrap(5)
+fib_wrap(6)
+puts "----------"
+fib_mem_wrap(6)
+puts "----------"
+fib_mem_wrap(6)
